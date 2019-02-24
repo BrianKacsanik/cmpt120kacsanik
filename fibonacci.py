@@ -5,10 +5,10 @@ def main ():
     x = 1
     y = 1
     n = eval(input("Please enter a number"))
-    if n is 1:
+    if n < 3:
         print ("1")
-    if n > 1:
-        for i in range (1, n):
+    else:
+        for i in range (0, n-2):
             z = x + y
             x = y
             y = z

@@ -3,16 +3,19 @@
 
 def main():
     animal = "lion"
-    print("Thinking of an animal.")
-    print("Guess what animal I am thinking of.")
+    print("Thinking of an animal")
+    print("Guess what animal I am thinking of")
     animalguess = "incorrect"
     while animalguess == "incorrect":
-        animalguess = input()
+        animalguess = str.lower(input())
         if animalguess == animal:
             print("Congratulations, you win!")
             animalguess = "correct"
+        elif animalguess == "end":
+            animalguess = "quit"
         else:
-            print("Incorrect, try again.")
+            print("Incorrect, try again")
+            print("Type 'end' to exit")
             animalguess = "incorrect"
 
 main()

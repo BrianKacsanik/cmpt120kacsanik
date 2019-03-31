@@ -10,9 +10,11 @@ def main():
         animalguess = str.lower(input())
         if animalguess == animal:
             print("Congratulations, you win!")
+            # What about asking about the animal?
             animalguess = "correct"
-        elif animalguess == "end":
-            animalguess = "quit"
+            break
+        elif animalguess[0] == "q":
+            break
         else:
             print("Incorrect, try again")
             print("Type 'end' to exit")

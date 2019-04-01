@@ -34,17 +34,30 @@ def doLoop():
             break
 
 def function(cmd):
-    num1 = int(input("Enter the first number: "))
-    num2 = int(input("Enter the second number: "))
-    if cmd == "add":
-        result = num1 + num2
-    elif cmd == "sub":
-        result = num1 - num2
-    elif cmd == "mult":
-        result = num1 * num2
-    elif cmd == "div":
-        result = num1 / num2
-    print("The result is " + str(result) + ".\n")
+    try:
+        num1 = int(input("Enter the first number: "))
+        num2 = int(input("Enter the second number: "))
+        if cmd == "add":
+            result = num1 + num2
+            print("The result is " + str(result) + ".\n")
+        elif cmd == "sub":
+            result = num1 - num2
+            print("The result is " + str(result) + ".\n")
+        elif cmd == "mult":
+            result = num1 * num2
+            print("The result is " + str(result) + ".\n")
+        elif cmd == "div":
+            try:
+                result = num1 / num2
+                print("The result is " + str(result) + ".\n")
+            except:
+                if num2 == 0:
+                    print("Unable to devide by zero.")
+                    result = 0
+    except:
+        print("That is not a valid number")
+        function(cmd)
+
 
 def main():
     showIntro()

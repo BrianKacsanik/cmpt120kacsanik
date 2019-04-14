@@ -75,6 +75,7 @@ def calculate(win):
     displaytext.draw(win)
     while True:
         if buttonpress == "=":
+            # You should include your call to resolve the equation here.
             break
         else:
             if buttonpress is None:

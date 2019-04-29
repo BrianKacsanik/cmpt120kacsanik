@@ -151,7 +151,7 @@ def calculate(win):
                 else:
                     memlist.extend(equation[-1])
             elif inside(buttonpress, memsub):
-                if memlist > 0:
+                if len(memlist) > 0:
                     del memlist[-1]
             elif inside(buttonpress, memrecall):
                 if len(memlist) > 0:

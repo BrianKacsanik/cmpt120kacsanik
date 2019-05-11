@@ -3,6 +3,41 @@
 
 from graphics import *
 
+class Button:
+    def __init__(self, name, coords, labels, color, size):
+        self.name = name
+        self.coords = coords
+        self.labels = labels
+        self.color = color
+        self.size = size
+        
+def buttonsize(i, x, y):
+    buttonsize = Rectangle(Point(x,y),Point(x+buttons[i].size,y+buttons[i].size))
+    return buttonsize
+
+buttons = [Button("memadd", [35,88], 'M+', 'orange', 40),
+           Button("memsub", [85,88], 'M-', 'orange', 40),
+           Button("memrecall", [135,88], 'MR', 'orange', 40),
+           Button("memclear", [185,88], 'MC', 'orange', 40),
+           Button("button7", [35,134], '7', 'lightblue', 40),
+           Button("button8", [85,134], '8', 'lightblue', 40),
+           Button("button9", [135,134], '9', 'lightblue', 40),
+           Button("buttondiv", [185,134], '/', 'orange', 40),
+           Button("button4", [35,180], '4', 'lightblue', 40),
+           Button("button5", [85,180], '5', 'lightblue', 40),
+           Button("button6", [135,180], '6', 'lightblue', 40),
+           Button("buttonmult", [185,180], '*', 'orange', 40),
+           Button("button1", [35,226], '1', 'lightblue', 40),
+           Button("button2", [85,226], '2', 'lightblue', 40),
+           Button("button3", [135,226], '3', 'lightblue', 40),
+           Button("buttonadd", [185,226], '+', 'orange', 40),
+           Button("buttonneg", [35,272], '+/-', 'orange', 40),
+           Button("button0", [85,272], '0', 'lightblue', 40),
+           Button("buttondecimal", [135,272], '.', 'lightblue', 40),
+           Button("buttonsub", [185,272], '-', 'orange', 40),
+           Button("buttondel", [135,318], 'Del', 'orange', 40),
+           Button("buttonequal", [185,318], '=', 'orange', 40)]
+
 def createcanvas():
     win = GraphWin("Calculator", 260, 371)
     win.setBackground("navy")
@@ -21,36 +56,12 @@ def inside(point, rectangle):
     return rectp1.getX() < point.getX() < rectp2.getX() and rectp1.getY() < point.getY() < rectp2.getY()
 
 def createbuttons(win):
-    coords = [[35,88],[85,88],[135,88],[185,88],
-              [35,134],[85,134],[135,134],[185,134],
-              [35,180],[85,180],[135,180],[185,180],
-              [35,226],[85,226],[135,226],[185,226],
-              [35,272],[85,272],[135,272],[185,272],
-              [135,318],[185,318]]
-    labels = ['M+','M-','MR','MC',
-              '7','8','9','/',
-              '4','5','6','x',
-              '1','2','3','+',
-              '+/-','0','.','-',
-              "Del","="]
-    color = ['orange','orange','orange','orange',
-             'lightblue','lightblue','lightblue','orange',
-             'lightblue','lightblue','lightblue','orange',
-             'lightblue','lightblue','lightblue','orange',
-             'orange','lightblue','lightblue','orange',
-             'orange','orange']
-    size = [40,40,40,40,
-            40,40,40,40,
-            40,40,40,40,
-            40,40,40,40,
-            40,40,40,40,
-            40,40]
-    for i in range(len(coords)):
-        x = coords[i][0]
-        y = coords[i][1]
-        button = Rectangle(Point(x,y),Point(x+size[i],y+size[i]))
-        button.setFill(color[i])
-        label = Text(Point(x+size[i]/2,y+size[i]/2),labels[i])
+    for i in range(len(buttons)):
+        x = buttons[i].coords[0]
+        y = buttons[i].coords[1]
+        button = Rectangle(Point(x,y),Point(x+buttons[i].size,y+buttons[i].size))
+        button.setFill(buttons[i].color)
+        label = Text(Point(x+buttons[i].size/2,y+buttons[i].size/2),buttons[i].labels)
         button.draw(win)
         label.draw(win)
 
@@ -58,34 +69,15 @@ def calculate(win):
     equationlist = []
     memlist = []
     buttonpress = 0
-    button1 = Rectangle(Point(35,226),Point(75,266))
-    button2 = Rectangle(Point(85,226),Point(125,266))
-    button3 = Rectangle(Point(135,226),Point(175,266))
-    button4 = Rectangle(Point(35,180),Point(75,220))
-    button5 = Rectangle(Point(85,180),Point(125,220))
-    button6 = Rectangle(Point(135,180),Point(175,220))
-    button7 = Rectangle(Point(35,134),Point(75,174))
-    button8 = Rectangle(Point(85,134),Point(125,174))
-    button9 = Rectangle(Point(135,134),Point(175,174))
-    button0 = Rectangle(Point(85,272),Point(125,312))
-    buttonadd = Rectangle(Point(185,226),Point(225,266))
-    buttonsub = Rectangle(Point(185,272),Point(225,312))
-    buttonmult = Rectangle(Point(185,180),Point(225,220))
-    buttondiv = Rectangle(Point(185,134),Point(225,174))
-    buttonneg = Rectangle(Point(35,272),Point(75,312))
-    buttondel = Rectangle(Point(135,318),Point(175,358))
-    buttondecimal = Rectangle(Point(135,272),Point(175,312))
-    buttonequal = Rectangle(Point(185,318),Point(225,358))
-    memadd = Rectangle(Point(35,88),Point(75,128))
-    memsub = Rectangle(Point(85,88),Point(125,128))
-    memrecall = Rectangle(Point(135,88),Point(175,128))
-    memclear = Rectangle(Point(185,88),Point(225,128))
     displaytext = Text(Point(130,52),"")
     displaytext.draw(win)
+    numberkey = [4,5,6,8,9,10,12,13,14,17,18]
+    pressedbutton = 0
     while True:
-        if buttonpress == "=":
+        if pressedbutton == "=":
             break
-        else:
+        buttonpress = win.getMouse()
+        for i in range(len(buttons)):
             if buttonpress is None:
                 displaytext.setText("")
             else:
@@ -96,78 +88,59 @@ def calculate(win):
                     for q in equationlist:
                         screen = screen + q
                     displaytext.setText(screen)
-            buttonpress = win.getMouse()
-            if inside(buttonpress, button1):
-                equationlist.extend("1")
-            elif inside(buttonpress, button2):
-                equationlist.extend("2")
-            elif inside(buttonpress, button3):
-                equationlist.extend("3")
-            elif inside(buttonpress, button4):
-                equationlist.extend("4")
-            elif inside(buttonpress, button5):
-                equationlist.extend("5")
-            elif inside(buttonpress, button6):
-                equationlist.extend("6")
-            elif inside(buttonpress, button7):
-                equationlist.extend("7")
-            elif inside(buttonpress, button8):
-                equationlist.extend("8")
-            elif inside(buttonpress, button9):
-                equationlist.extend("9")
-            elif inside(buttonpress, button0):
-                equationlist.extend("0")
-            elif inside(buttonpress, buttonadd):
-                equationlist.extend(" + ")
-            elif inside(buttonpress, buttonsub):
-                equationlist.extend(" - ")
-            elif inside(buttonpress, buttonmult):
-                equationlist.extend(" * ")
-            elif inside(buttonpress, buttondiv):
-                equationlist.extend(" / ")
-            elif inside(buttonpress, buttondecimal):
-                equationlist.extend(".")
-            elif inside(buttonpress, buttonneg):
-                equationlist.extend("-")
-            elif inside(buttonpress, buttondel):
-                if len(equationlist) > 0:
-                    if equationlist[-1] == " ":
-                        del equationlist[-1]
-                        del equationlist[-1]
-                        del equationlist[-1]
-                    else:
-                        del equationlist[-1]
-            elif inside(buttonpress, memadd):
-                g = ""
-                for f in equationlist:
-                    g = g + f
-                equation = str.split(g)
-                if len(memlist) > 0:
-                    if memlist[-1] == "+" or memlist[-1] == "-" or memlist[-1] == "*" or memlist[-1] == "/":
-                        continue
-                    else:
-                        memlist.extend(" ")
-                        memlist.extend(equation[-1])
-                else:
-                    memlist.extend(equation[-1])
-            elif inside(buttonpress, memsub):
-                if len(memlist) > 0:
-                    del memlist[-1]
-            elif inside(buttonpress, memrecall):
-                if len(memlist) > 0:
+            x = buttons[i].coords[0]
+            y = buttons[i].coords[1]
+            if inside(buttonpress, buttonsize(i, x, y)):
+                pressedbutton = buttons[i].labels
+                if buttonpress == "=":
+                    break
+                elif i in numberkey:
+                    equationlist.extend(buttons[i].labels)
+                elif pressedbutton == "+":
+                    equationlist.extend(" + ")
+                elif pressedbutton == "-":
+                    equationlist.extend(" - ")
+                elif pressedbutton == "*":
+                    equationlist.extend(" * ")
+                elif pressedbutton == "/":
+                    equationlist.extend(" / ")
+                elif pressedbutton == "+/-":
+                    equationlist.extend("-")
+                elif pressedbutton == "Del":
+                    if len(equationlist) > 0:
+                        if equationlist[-1] == " ":
+                            del equationlist[-1]
+                            del equationlist[-1]
+                            del equationlist[-1]
+                        else:
+                            del equationlist[-1]
+                elif pressedbutton == "M+":
                     g = ""
-                    for f in memlist:
+                    for f in equationlist:
                         g = g + f
                     equation = str.split(g)
-                    equationlist.extend(equation[-1])
-            elif inside(buttonpress, memclear):
-                memlist = []
-            elif inside(buttonpress, buttonequal):
-                g = ""
-                for f in equationlist:
-                    g = g + f
-                equation = str.split(g)
-                break
+                    memlist.extend(equation[-1])
+                    if memlist[-1] == "+" or memlist[-1] == "-" or memlist[-1] == "*" or memlist[-1] == "/":
+                        del memlist[-1]
+                elif pressedbutton == "M-":
+                    if len(memlist) > 0:
+                        del memlist[-1]
+                elif pressedbutton == "MR":
+                    if len(memlist) > 0:
+                        g = ""
+                        for f in memlist:
+                            g = g + f
+                        equation = str.split(g)
+                        equationlist.extend(equation[-1])
+                elif pressedbutton == "MC":
+                    memlist = []
+                elif pressedbutton == "=":
+                    g = ""
+                    for f in equationlist:
+                        g = g + f
+                    equation = str.split(g)
+                    break
+    
     i = 0
     while len(equation) > 1:
         if len(equation) > i:
